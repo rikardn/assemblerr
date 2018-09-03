@@ -318,7 +318,9 @@ subs_dec <- function(d, ...){
   d <- arg_as_declaration(d)
   if(any(purrr::map_lgl(substitutions, is_anonymous))) stop("substitutions need to be named")
   substitutions <- purrr::set_names(substitutions, purrr::map(substitutions, ~get_identifier(.x) %>% deparse))
-  purrr::modify(d, ~transform_ast(.x, subs_transformer, substitutions = substitutions))
+  #purrr::modify(d, ~transform_ast(.x, subs_transformer, substitutions = substitutions))
+  d$definition <- transform_ast(d$definition, subs_transformer, substitutions = substitutions)
+  d
 }
 
 subs_transformer <- function(node, substitutions){
@@ -355,7 +357,7 @@ transform_ast <- function(node, transformer, ...){
       rlang::as_pairlist() %>%
       return()
   }else {
-    stop("Don't know how to handle type ", typeof(x),
+    stop("Don't know how to handle type ", typeof(node),
          call. = FALSE)
   }
 }
