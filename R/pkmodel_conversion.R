@@ -6,7 +6,7 @@ as_model.pk_model <- function(from){
 
  model() %>%
     convert_pk_components(from) %|+%
-    observation(equation = ~A["central"]/vc, type = "additive") +
+    observation(definition=~A["central"]/vc, type = "additive") +
     purrr::update_list(from, pk_components = NULL) # all other components are taken "as-is"
 }
 
@@ -33,7 +33,7 @@ add_converter(
     to +
       compartment("depot", volume = 1) +
       parameter("ka") +
-      flow(from = "depot", "central", equation = ~ka*A)
+      flow(from = "depot", "central", definition=~ka*A)
   }
 )
 
@@ -45,7 +45,7 @@ add_converter(
     to +
       compartment("depot", volume = 1) +
       parameter("k0") +
-      flow(from = "depot", "central", equation = ~k0*A/(1E-6+A))
+      flow(from = "depot", "central", definition=~k0*A/(1E-6+A))
   }
 )
 
@@ -75,7 +75,7 @@ add_converter(
   converter_fn =  function(to, from, component){
     to +
       parameter("cl") +
-      flow(from = "central", equation = ~cl*C)
+      flow(from = "central", definition=~cl*C)
   }
 )
 
@@ -87,7 +87,7 @@ add_converter(
     to +
       parameter("vmax") +
       parameter("km")+
-      flow(from = "central", equation = ~vmax*C/(km+C))
+      flow(from = "central", definition=~vmax*C/(km+C))
   }
 )
 
@@ -110,8 +110,8 @@ add_converter(
     to +
       compartment(name = "central", volume = ~vc) +
       compartment(name = "peripheral", volume = ~vp) +
-      flow(from = "central", to = "peripheral", equation = ~q*C) +
-      flow(from = "peripheral", to = "central", equation = ~q*C) +
+      flow(from = "central", to = "peripheral", definition=~q*C) +
+      flow(from = "peripheral", to = "central", definition=~q*C) +
       parameter("vc") +
       parameter("vp") +
       parameter("q")
@@ -127,10 +127,10 @@ add_converter(
       compartment(name = "central", volume = ~vc) +
       compartment(name = "peripheral1", volume = ~vp1) +
       compartment(name = "peripheral2", volume = ~vp2) +
-      flow(from = "central", to = "peripheral1", equation = ~q1*C) +
-      flow(from = "peripheral1", to = "central", equation = ~q1*C) +
-      flow(from = "central", to = "peripheral2", equation = ~q2*C) +
-      flow(from = "peripheral2", to = "central", equation = ~q2*C) +
+      flow(from = "central", to = "peripheral1", definition=~q1*C) +
+      flow(from = "peripheral1", to = "central", definition=~q1*C) +
+      flow(from = "central", to = "peripheral2", definition=~q2*C) +
+      flow(from = "peripheral2", to = "central", definition=~q2*C) +
       parameter("vc") +
       parameter("vp1") +
       parameter("vp2") +
